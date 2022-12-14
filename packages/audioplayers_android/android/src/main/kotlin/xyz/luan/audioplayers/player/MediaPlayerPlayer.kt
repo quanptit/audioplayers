@@ -42,7 +42,7 @@ class MediaPlayerPlayer(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mediaPlayer.playbackParams = mediaPlayer.playbackParams.setSpeed(rate)
         } else {
-            error("Changing the playback rate is only available for Android M/23+ or using LOW_LATENCY mode.")
+            //error("Changing the playback rate is only available for Android M/23+ or using LOW_LATENCY mode.")
         }
     }
 
