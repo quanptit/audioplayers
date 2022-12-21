@@ -182,7 +182,11 @@ class WrappedPlayer internal constructor(
                 if (player?.isLiveStream() == true) {
                     player?.stop()
                     prepared = false
-                    player?.prepare()
+                    try {
+                        player?.prepare()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 } else {
                     // MediaPlayer does not allow to call player.seekTo after calling player.stop
                     seek(0)
