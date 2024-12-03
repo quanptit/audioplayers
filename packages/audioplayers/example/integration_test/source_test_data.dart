@@ -1,23 +1,22 @@
-/// Data of a test source.
-class SourceTestData {
-  String sourceKey;
+/// Data of a ui test source.
+abstract class SourceTestData {
+  Duration? duration;
 
-  Duration duration;
+  bool get isLiveStream => duration == null;
 
-  bool isLiveStream;
+  /// Whether this source has variable bitrate
+  bool isVBR;
 
   SourceTestData({
-    required this.sourceKey,
     required this.duration,
-    this.isLiveStream = false,
+    this.isVBR = false,
   });
 
   @override
   String toString() {
     return 'SourceTestData('
-        'sourceKey: $sourceKey, '
         'duration: $duration, '
-        'isLiveStream: $isLiveStream'
+        'isVBR: $isVBR'
         ')';
   }
 }

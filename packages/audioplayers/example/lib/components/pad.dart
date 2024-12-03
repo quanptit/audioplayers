@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Pad extends StatelessWidget {
-  final double width, height;
+  final double width;
+  final double height;
 
-  const Pad({Key? key, this.width = 0, this.height = 0}) : super(key: key);
+  const Pad({super.key, this.width = 0, this.height = 0});
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,8 @@
 name: audioplayers
 description: A Flutter plugin to play multiple audio files simultaneously
-version: 1.1.1
-homepage: https://github.com/luanpotter/audioplayers
+version: 6.1.0
+homepage: https://github.com/bluefireteam/audioplayers
+repository: https://github.com/bluefireteam/audioplayers/tree/master/packages/audioplayers
 
 flutter:
   plugin:
@@ -24,29 +25,26 @@ dependencies:
     git:
       url: https://github.com/quanptit/audioplayers.git
       path: packages/audioplayers_android/
-  audioplayers_darwin: ^1.0.3
-  audioplayers_linux: ^1.0.1
-  audioplayers_platform_interface: ^2.0.0
-  audioplayers_web: ^2.0.1
-  audioplayers_windows: ^1.1.0
+  audioplayers_darwin: ^6.0.0
+  audioplayers_linux: ^4.0.0
+  audioplayers_platform_interface: ^7.0.0
+  audioplayers_web: ^5.0.1
+  audioplayers_windows: ^4.0.0
+  file: '>=6.1.0 <8.0.0'
   flutter:
     sdk: flutter
-  http: ^0.13.1
-  path_provider: ^2.0.11
-  uuid: ^3.0.1
+  http: '>=0.13.1 <2.0.0'
+  meta: ^1.7.0
+  path_provider: ^2.0.12
+  synchronized: ^3.0.0
+  uuid: '>=3.0.7 <5.0.0'
 
 dev_dependencies:
-  dartdoc: ^5.0.1
-  flame_lint: ^0.1.0
+  flame_lint: ^1.0.0
   flutter_test:
     sdk: flutter
 
 environment:
-  sdk: ">=2.14.0 <3.0.0"
-  flutter: ">=2.5.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.13.0'
 
-# dependency_overrides:
-#   audioplayers_android:
-#     git:
-#       url: https://github.com/quanptit/audioplayers.git
-#       path: packages/audioplayers_android/

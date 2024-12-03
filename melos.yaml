@@ -7,43 +7,34 @@ packages:
   - tutorials/**
 
 command:
-  version:
-    # Generate commit links in package changelogs.
-    linkToCommits: true
-    # Only allow versioning to happen on main branch.
-    branch: main
-    # Additionally build a changelog at the root of the workspace.
-    workspaceChangelog: true
   bootstrap:
     # Avoid concurrent pub requests, remove when https://github.com/dart-lang/pub/issues/3404 is fixed
     runPubGetInParallel: false
 
 scripts:
   lint:
-    run: melos run analyze && melos run format
+    run: melos analyze && melos format
     description: Run all static analysis checks.
 
-  analyze:
-    run: melos exec -c 10 flutter analyze --fatal-infos
-    description: Run `flutter analyze` for all packages.
-
-  format:
-    run: melos exec flutter format . --fix
-    description: Run `flutter format` for all packages.
-
-  format-check:
-    run: melos exec flutter format . --set-exit-if-changed
-    description: Run `flutter format` checks for all packages.
-
   dartdoc:
-    run: melos exec --ignore="*_example" flutter pub run dartdoc
-    description: Run dartdoc checks for all non-example packages.
+    run: melos exec dart doc
+    description: Run `dart doc` for all non-example packages.
+    packageFilters:
+      ignore: "*_example"
+
+  pub-outdated:
+    run: melos exec dart pub outdated
+    description: Run `dart pub outdated` for all packages.
+
+  pub-upgrade:
+    # May fails until https://github.com/dart-lang/pub/pull/3920 is released
+    run: melos exec dart pub upgrade --major-versions
+    description: Run `dart pub upgrade --major-versions` for all packages.
 
   test:select:
     run: melos exec flutter test
-    select-package:
-      dir-exists:
-        - test
+    packageFilters:
+      dirExists: test
     description: Run `flutter test` for selected packages.
 
   test:

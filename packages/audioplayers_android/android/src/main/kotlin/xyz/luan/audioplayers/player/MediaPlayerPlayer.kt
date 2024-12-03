@@ -12,13 +12,15 @@ class MediaPlayerPlayer(
     private val mediaPlayer = createMediaPlayer(wrappedPlayer)
 
     private fun createMediaPlayer(wrappedPlayer: WrappedPlayer): MediaPlayer {
-        return MediaPlayer().apply {
+        val mediaPlayer = MediaPlayer().apply {
             setOnPreparedListener { wrappedPlayer.onPrepared() }
             setOnCompletionListener { wrappedPlayer.onCompletion() }
             setOnSeekCompleteListener { wrappedPlayer.onSeekComplete() }
             setOnErrorListener { _, what, extra -> wrappedPlayer.onError(what, extra) }
             setOnBufferingUpdateListener { _, percent -> wrappedPlayer.onBuffering(percent) }
         }
+        wrappedPlayer.context.setAttributesOnPlayer(mediaPlayer)
+        return mediaPlayer
     }
 
     override fun getDuration(): Int? {
@@ -30,17 +32,15 @@ class MediaPlayerPlayer(
         return mediaPlayer.currentPosition
     }
 
-    override fun isActuallyPlaying(): Boolean {
-        return mediaPlayer.isPlaying
-    }
-
-    override fun setVolume(volume: Float) {
-        mediaPlayer.setVolume(volume, volume)
+    override fun setVolume(leftVolume: Float, rightVolume: Float) {
+        mediaPlayer.setVolume(leftVolume, rightVolume)
     }
 
     override fun setRate(rate: Float) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mediaPlayer.playbackParams = mediaPlayer.playbackParams.setSpeed(rate)
+        } else if (rate == 1.0f) {
+            mediaPlayer.start()
         } else {
             //error("Changing the playback rate is only available for Android M/23+ or using LOW_LATENCY mode.")
         }
@@ -56,7 +56,8 @@ class MediaPlayerPlayer(
     }
 
     override fun start() {
-        mediaPlayer.start()
+        // Setting playback rate instead of mediaPlayer.start().
+        setRate(wrappedPlayer.rate)
     }
 
     override fun pause() {
@@ -77,8 +78,6 @@ class MediaPlayerPlayer(
     }
 
     override fun updateContext(context: AudioContextAndroid) {
-        // TODO(luan) is this global?
-        wrappedPlayer.audioManager.isSpeakerphoneOn = context.isSpeakerphoneOn
         context.setAttributesOnPlayer(mediaPlayer)
         if (context.stayAwake) {
             mediaPlayer.setWakeMode(wrappedPlayer.applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
@@ -86,7 +85,7 @@ class MediaPlayerPlayer(
     }
 
     override fun prepare() {
-        mediaPlayer.prepare()
+        mediaPlayer.prepareAsync()
     }
 
     override fun reset() {
